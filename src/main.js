@@ -126,7 +126,7 @@ renderElement(main, createFilmSection(), `beforeend`);
 const filmSection = main.querySelector(`.films`);
 renderElement(filmSection, createFilmList(), `afterbegin`);
 
-const filmList = filmSection.querySelector(`.films-list`)
+const filmList = filmSection.querySelector(`.films-list`);
 renderElement(filmList, createFilmListContainer(), `beforeend`);
 
 const filmListContainer = filmList.querySelector(`.films-list__container`);
