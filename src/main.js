@@ -1,19 +1,19 @@
-'use strict'
-const ALL_CARDS_COUNT = '5';
-const EXTRA_CARDS_COUNT = '2';
+'use strict';
+const ALL_CARDS_COUNT = `5`;
+const EXTRA_CARDS_COUNT = `2`;
 
-const header = document.querySelector('.header');
-const main = document.querySelector('.main');
-const footerStatistics =  document.querySelector('.footer__statistics');
+const header = document.querySelector(`.header`);
+const main = document.querySelector(`.main`);
+const footerStatistics = document.querySelector(`.footer__statistics`);
 
 
 const createUserLevelName = () => {
-    return (
-      `<section class="header__profile profile">
-        <p class="profile__rating">Movie Buff</p>
-        <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-      </section>`
-    );
+  return (
+    `<section class="header__profile profile">
+      <p class="profile__rating">Movie Buff</p>
+      <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
+    </section>`
+  );
 };
 
 const createSiteMenu = () => {
@@ -123,39 +123,39 @@ renderElement(main, createSortingElement(), `beforeend`);
 renderElement(main, createFilmSection(), `beforeend`);
 
 // All films
-const filmSection = main.querySelector('.films');
+const filmSection = main.querySelector(`.films`);
 renderElement(filmSection, createFilmList(), `afterbegin`);
 
-const filmList = filmSection.querySelector('.films-list')
+const filmList = filmSection.querySelector(`.films-list`)
 renderElement(filmList, createFilmListContainer(), `beforeend`);
 
-const filmListContainer = filmList.querySelector('.films-list__container');
+const filmListContainer = filmList.querySelector(`.films-list__container`);
 for (let i = 0; i < ALL_CARDS_COUNT; i++) {
   renderElement(filmListContainer, createFilmCardTemplate(), `beforeend`);
-};
+}
 renderElement(filmList, createShowMoreButton(), `beforeend`);
 
 // Top rated
 renderElement(filmSection, createTopFilmList(), `beforeend`);
-const extraFilmList = filmSection.querySelector('.films-list--extra')
+const extraFilmList = filmSection.querySelector(`.films-list--extra`);
 
 renderElement(extraFilmList, createFilmListContainer(), `beforeend`);
-const topFilmListContainer = extraFilmList.querySelector('.films-list__container');
+const topFilmListContainer = extraFilmList.querySelector(`.films-list__container`);
 
 for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
   renderElement(topFilmListContainer, createFilmCardTemplate(), `beforeend`);
-};
+}
 
 // Most commented
 renderElement(filmSection, createMostCommentedFilmList(), `beforeend`);
-const MostCommentedFilmList = filmSection.querySelector('.films-list--extra:last-child')
+const MostCommentedFilmList = filmSection.querySelector(`.films-list--extra:last-child`);
 
 renderElement(MostCommentedFilmList, createFilmListContainer(), `beforeend`);
-const MostFilmListContainer = MostCommentedFilmList.querySelector('.films-list__container');
+const MostFilmListContainer = MostCommentedFilmList.querySelector(`.films-list__container`);
 
 for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
   renderElement(MostFilmListContainer, createFilmCardTemplate(), `beforeend`);
-};
+}
 
 // Footer
 renderElement(footerStatistics, createStatisticsParagraph(), `afterbegin`);
