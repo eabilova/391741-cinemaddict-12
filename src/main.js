@@ -10,8 +10,9 @@ import {createTopFilmList} from './view/top-film-list.js';
 import {createMostCommentedFilmList} from './view/most-commented-list.js';
 import {createStatisticsParagraph} from './view/statistics-paragraph.js';
 import {createFilmDetailsPopup} from './view/film-detail-popup.js';
+import {generateFilmCard} from './mock/film-card-template.js';
 
-const ALL_CARDS_COUNT = `5`;
+const ALL_CARDS_COUNT = `20`;
 const EXTRA_CARDS_COUNT = `2`;
 
 const header = document.querySelector(`.header`);
@@ -22,6 +23,8 @@ const footer = document.querySelector(`.footer`);
 const renderElement = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
+
+const cards = new Array(ALL_CARDS_COUNT).fill().map(generateFilmCard);
 
 // Header
 renderElement(header, createUserLevelName(), `beforeend`);
@@ -38,7 +41,7 @@ renderElement(filmList, createFilmListContainer(), `beforeend`);
 
 const filmListContainer = filmList.querySelector(`.films-list__container`);
 for (let i = 0; i < ALL_CARDS_COUNT; i++) {
-  renderElement(filmListContainer, createFilmCardTemplate(), `beforeend`);
+  renderElement(filmListContainer, createFilmCardTemplate(cards[i]), `beforeend`);
 }
 renderElement(filmList, createShowMoreButton(), `beforeend`);
 
