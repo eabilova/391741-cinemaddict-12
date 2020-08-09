@@ -42,23 +42,20 @@ const generateDescription = () => {
 
   const splitDescription = description.split(`. `);
 
-  const randomIndex = getRandomInteger(0, splitDescription.length - 1);
-
-  return splitDescription[randomIndex];
+  return splitDescription.slice(getRandomInteger(0, splitDescription.length - 1), getRandomInteger(0, splitDescription.length - 1));
 };
 
 const generateComments = () => {
   const comments = [
-    `Понравилось все, и сюжет и игра актеров, особенно главный герой. Если хотите получить заряд положительных эмоций, то сходите, не пожалеете )...`,
-    `Сюжет, оригинальности и зрелищ нет, а также музыка — режиссер специально выбрал несочетающиеся симфонии`,
-    `Фильм, который шокирует и трогает за душу одновременно... Фильм, который я решилась пересмотреть только спустя 6 лет. Фильм, во время просмотра которого невозможно не рыдать...`,
-    `Добрая и поучительная история, напоминающая об уязвимости и беззащитности природы`,
-    `Очень противоречивый фильм. Что сняли по книге?`
+    `&quot;Понравилось все, и сюжет и игра актеров, особенно главный герой. Если хотите получить заряд положительных эмоций, то сходите, не пожалеете )...&quot;`,
+    `&quot;Сюжет, оригинальности и зрелищ нет, а также музыка — режиссер специально выбрал несочетающиеся симфонии&quot;`,
+    `&quot;Фильм, который шокирует и трогает за душу одновременно... Фильм, который я решилась пересмотреть только спустя 6 лет. Фильм, во время просмотра которого невозможно не рыдать...&quot;`,
+    `&quot;Добрая и поучительная история, напоминающая об уязвимости и беззащитности природы&quot;`,
+    `&quot;Очень противоречивый фильм. Что сняли по книге?&quot;`
   ];
 
-  const randomIndex = getRandomInteger(0, comments.length - 1);
-
-  return comments[randomIndex];
+  const commentList = comments.slice(getRandomInteger(0, comments.length - 1), getRandomInteger(0, comments.length - 1));
+  return commentList.join(`<br>`);
 };
 
 const generateDuration = () => {
