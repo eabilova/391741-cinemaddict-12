@@ -61,13 +61,35 @@ const generateComments = () => {
   return comments[randomIndex];
 };
 
+const generateDuration = () => {
+  const hour = getRandomInteger(0, 2);
+  const minute = getRandomInteger(0, 59);
+
+  return hour + `h ` + minute + `m`;
+};
+
+const generateGenre = () => {
+  const genre = [
+    `Musical`,
+    `Western`,
+    `Drama`,
+    `Comedy`,
+    `Cartoon`,
+    `Mystery`,
+  ];
+
+  const randomIndex = getRandomInteger(0, genre.length - 1);
+
+  return genre[randomIndex];
+};
+
 export const generateFilmCard = () => {
   return {
     title: generateFilmTitle(),
-    rating: getRandomInteger(0, 9),
-    year: getRandomInteger(),
-    duration: getRandomInteger(),
-    genre: getRandomInteger(),
+    rating: getRandomInteger(0, 9) + `.` + getRandomInteger(0, 9),
+    year: `19` + getRandomInteger(10, 99),
+    duration: generateDuration(),
+    genre: generateGenre(),
     src: generatePoster(),
     description: generateDescription(),
     comments: generateComments(),

@@ -53,7 +53,7 @@ renderElement(extraFilmList, createFilmListContainer(), `beforeend`);
 const topFilmListContainer = extraFilmList.querySelector(`.films-list__container`);
 
 for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
-  renderElement(topFilmListContainer, createFilmCardTemplate(), `beforeend`);
+  renderElement(topFilmListContainer, createFilmCardTemplate(cards[i]), `beforeend`);
 }
 
 // Most commented
@@ -64,7 +64,7 @@ renderElement(MostCommentedFilmList, createFilmListContainer(), `beforeend`);
 const MostFilmListContainer = MostCommentedFilmList.querySelector(`.films-list__container`);
 
 for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
-  renderElement(MostFilmListContainer, createFilmCardTemplate(), `beforeend`);
+  renderElement(MostFilmListContainer, createFilmCardTemplate(cards[i]), `beforeend`);
 }
 
 // Footer
