@@ -21,7 +21,7 @@ const generateFilmTitle = () => {
   return filmTitles[randomIndex];
 };
 
-const generatePoster = () => {
+const generatePoster = (title) => {
   const posters = [
     `made-for-each-other.png`,
     `popeye-meets-sinbad.png`,
@@ -32,9 +32,15 @@ const generatePoster = () => {
     `the-man-with-the-golden-arm.jpg`
   ];
 
-  const randomIndex = getRandomInteger(0, posters.length - 1);
-
-  return posters[randomIndex];
+  const titleDetails = title.toLowerCase().split(` `);
+  for (let i = 0; i < posters.length; i++) {
+    const checkedPoster = posters[i];
+    for (let k = 0; k < titleDetails.length; k++) {
+      if (checkedPoster.includes(titleDetails[k]) && titleDetails[k] !== `the`) {
+        return checkedPoster;
+      }
+    }
+  }
 };
 
 const generateDescription = () => {
@@ -42,10 +48,10 @@ const generateDescription = () => {
 
   const splitDescription = description.split(`. `);
 
-  return splitDescription.slice(getRandomInteger(0, splitDescription.length - 1), getRandomInteger(0, splitDescription.length - 1));
+  return splitDescription.slice(0, getRandomInteger(0, splitDescription.length - 1)).join(`. `);
 };
 
-const generateComments = () => {
+const generateComments = (commentNumber) => {
   const comments = [
     `&quot;Понравилось все, и сюжет и игра актеров, особенно главный герой. Если хотите получить заряд положительных эмоций, то сходите, не пожалеете )...&quot;`,
     `&quot;Сюжет, оригинальности и зрелищ нет, а также музыка — режиссер специально выбрал несочетающиеся симфонии&quot;`,
@@ -54,7 +60,7 @@ const generateComments = () => {
     `&quot;Очень противоречивый фильм. Что сняли по книге?&quot;`
   ];
 
-  const commentList = comments.slice(getRandomInteger(0, comments.length - 1), getRandomInteger(0, comments.length - 1));
+  const commentList = comments.slice(0, commentNumber);
   return commentList.join(`<br>`);
 };
 
@@ -80,15 +86,83 @@ const generateGenre = () => {
   return genre[randomIndex];
 };
 
+const generateDirectorName = () => {
+  const names = [
+    `Anthony Mann`,
+    `John Cromwell`,
+    `Nicholas Webster`,
+    `Armand Schaefer`,
+    `Dave Fleischer`,
+    `Otto Preminger`
+  ];
+
+  const randomIndex = getRandomInteger(0, names.length - 1);
+
+  return names[randomIndex];
+};
+
+const generateWriterNames = () => {
+  const names = [
+    `Walter Newman`,
+    `Lewis Meltzer`,
+    `Ben Hecht`,
+    `Rose Franken`,
+    `Jo Swerling`,
+    `Frank Ryan`,
+    `Jack Mercer`,
+    `Mae Questel`,
+    `Gus Wickie`,
+    `Lou Fleischer`,
+    `Lindsley Parsons`,
+    `Will Beale`,
+    `Glenville Mareth`,
+    `Paul L. Jacobson`,
+    `Benjamin Glazer`
+  ];
+
+  return names.slice(0, getRandomInteger(getRandomInteger(0, names.length - 1), names.length - 1)).join(`, `);
+};
+
+const generateActorNames = () => {
+  const names = [
+    `Hal Skelly`,
+    `Nancy Carroll`,
+    `John Call`,
+    `Vincent Beck`,
+    `Leonard Hicks`,
+    `John Wayne`,
+    `Nancy Shubert`,
+    `Lane Chandler`,
+    `Jack Mercer`,
+    `Mae Questel`,
+    `Gus Wickie`,
+    `Carole Lombard`,
+    `James Stewart`,
+    `Frank Sinatra`,
+    `Eleanor Parker`,
+    `Kim Novak`,
+    `Arnold Stang`
+  ];
+
+  return names.slice(getRandomInteger(0, names.length - 1), getRandomInteger(0, names.length - 1)).join(`, `);
+};
+
 export const generateFilmCard = () => {
+  const commentNumber = getRandomInteger(0, 5);
+  const filmTitle = generateFilmTitle();
+
   return {
-    title: generateFilmTitle(),
+    title: filmTitle,
     rating: getRandomInteger(0, 9) + `.` + getRandomInteger(0, 9),
     year: `19` + getRandomInteger(10, 99),
     duration: generateDuration(),
     genre: generateGenre(),
-    src: generatePoster(),
+    src: generatePoster(filmTitle),
     description: generateDescription(),
-    comments: generateComments(),
+    comments: commentNumber,
+    commentList: generateComments(commentNumber),
+    director: generateDirectorName(),
+    writers: generateWriterNames(),
+    actors: generateActorNames(),
   };
 };

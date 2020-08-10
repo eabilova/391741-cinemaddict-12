@@ -12,8 +12,8 @@ import {createStatisticsParagraph} from './view/statistics-paragraph.js';
 import {createFilmDetailsPopup} from './view/film-detail-popup.js';
 import {generateFilmCard} from './mock/film-card-template.js';
 
-const ALL_CARDS_COUNT = `20`;
-const EXTRA_CARDS_COUNT = `2`;
+const ALL_CARDS_COUNT = 20;
+const EXTRA_CARDS_COUNT = 2;
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
@@ -71,4 +71,6 @@ for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
 renderElement(footerStatistics, createStatisticsParagraph(), `afterbegin`);
 
 // Popup
-renderElement(footer, createFilmDetailsPopup(), `afterend`);
+for (let i = 0; i < cards.length; i++) {
+  renderElement(footer, createFilmDetailsPopup(cards[i]), `afterend`);
+}
