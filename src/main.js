@@ -19,9 +19,11 @@ import {createFilmDetailControls} from './view/film-detail-controls.js';
 import {createFilmDetailInfo} from './view/film-detail-info.js';
 import {createFilmPopupBottomContainer} from './view/film-detail-bottom-container.js';
 import {createComment} from './view/film-detail-comment.js';
+import {generateMenuSiteData} from './mock/site-menu.js';
 
 
 const ALL_CARDS_COUNT = 20;
+const SHOW_COUNT = 5;
 const EXTRA_CARDS_COUNT = 2;
 
 const header = document.querySelector(`.header`);
@@ -38,7 +40,8 @@ let card;
 
 // Header
 renderElement(header, createUserLevelName(), `beforeend`);
-renderElement(main, createSiteMenu(), `afterbegin`);
+const menuInfo = generateMenuSiteData();
+renderElement(main, createSiteMenu(menuInfo), `afterbegin`);
 renderElement(main, createSortingElement(), `beforeend`);
 renderElement(main, createFilmSection(), `beforeend`);
 
@@ -50,9 +53,9 @@ const filmList = filmSection.querySelector(`.films-list`);
 renderElement(filmList, createFilmListContainer(), `beforeend`);
 
 const filmListContainer = filmList.querySelector(`.films-list__container`);
-for (let i = 0; i < ALL_CARDS_COUNT; i++) {
+for (let i = 0; i < SHOW_COUNT; i++) {
   renderElement(filmListContainer, createFilmCardTemplate(cards[i]), `beforeend`);
-  card = cards[i];
+  card = cards[0];
 }
 renderElement(filmList, createShowMoreButton(), `beforeend`);
 
@@ -65,7 +68,6 @@ const topFilmListContainer = extraFilmList.querySelector(`.films-list__container
 
 for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
   renderElement(topFilmListContainer, createFilmCardTemplate(cards[i]), `beforeend`);
-  card = cards[i];
 }
 
 // Most commented
@@ -77,7 +79,6 @@ const MostFilmListContainer = MostCommentedFilmList.querySelector(`.films-list__
 
 for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
   renderElement(MostFilmListContainer, createFilmCardTemplate(cards[i]), `beforeend`);
-  card = cards[i];
 }
 
 // Footer
