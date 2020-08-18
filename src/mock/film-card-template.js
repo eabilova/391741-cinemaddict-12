@@ -1,9 +1,4 @@
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
+import {getRandomInteger} from '../util.js';
 
 const generateFilmTitle = () => {
   const filmTitles = [
@@ -53,15 +48,41 @@ const generateDescription = () => {
 
 const generateComments = (commentNumber) => {
   const comments = [
-    `&quot;Понравилось все, и сюжет и игра актеров, особенно главный герой. Если хотите получить заряд положительных эмоций, то сходите, не пожалеете )...&quot;`,
-    `&quot;Сюжет, оригинальности и зрелищ нет, а также музыка — режиссер специально выбрал несочетающиеся симфонии&quot;`,
-    `&quot;Фильм, который шокирует и трогает за душу одновременно... Фильм, который я решилась пересмотреть только спустя 6 лет. Фильм, во время просмотра которого невозможно не рыдать...&quot;`,
-    `&quot;Добрая и поучительная история, напоминающая об уязвимости и беззащитности природы&quot;`,
-    `&quot;Очень противоречивый фильм. Что сняли по книге?&quot;`
+    `Понравилось все, и сюжет и игра актеров, особенно главный герой. Если хотите получить заряд положительных эмоций, то сходите, не пожалеете )...`,
+    `Сюжет, оригинальности и зрелищ нет, а также музыка — режиссер специально выбрал несочетающиеся симфонии&`,
+    `Фильм, который шокирует и трогает за душу одновременно... Фильм, который я решилась пересмотреть только спустя 6 лет. Фильм, во время просмотра которого невозможно не рыдать...`,
+    `Добрая и поучительная история, напоминающая об уязвимости и беззащитности природы`,
+    `Очень противоречивый фильм. Что сняли по книге?`
   ];
 
-  const commentList = comments.slice(0, commentNumber);
-  return commentList.join(`<br>`);
+  return comments.slice(0, commentNumber);
+};
+
+const generateAuthors = (commentNumber) => {
+  const authors = [
+    `Tim Mocoveev`,
+    `John Doe`,
+    `John Snow`,
+    `Movie Lover`,
+    `Watch Yourself`
+  ];
+
+  return authors.slice(0, commentNumber);
+};
+
+const generateCommentDate = (commentNumber) => {
+  let date = [];
+  for (let i = 0; i < commentNumber; i++) {
+    let year = getRandomInteger(2000, 2020);
+    let month = getRandomInteger(1, 12);
+    let day = getRandomInteger(1, 31);
+    let hour = getRandomInteger(0, 23);
+    let minute = getRandomInteger(0, 59);
+    let fullDate = year + `/` + month + `/` + day + ` ` + hour + `:` + minute;
+    date[i] = fullDate;
+  }
+
+  return date;
 };
 
 const generateDuration = () => {
@@ -69,6 +90,26 @@ const generateDuration = () => {
   const minute = getRandomInteger(0, 59);
 
   return hour + `h ` + minute + `m`;
+};
+
+const generateDate = (filmYear) => {
+  const month = [
+    `January`,
+    `February`,
+    `March`,
+    `April`,
+    `May`,
+    `June`,
+    `July`,
+    `August`,
+    `September`,
+    `October`,
+    `November`,
+    `December`
+  ];
+
+  const randomIndex = getRandomInteger(0, month.length - 1);
+  return getRandomInteger(1, 31) + ` ` + month[randomIndex] + ` ` + filmYear;
 };
 
 const generateGenre = () => {
@@ -144,25 +185,48 @@ const generateActorNames = () => {
     `Arnold Stang`
   ];
 
-  return names.slice(getRandomInteger(0, names.length - 1), getRandomInteger(0, names.length - 1)).join(`, `);
+  return names.slice(0, getRandomInteger(getRandomInteger(0, names.length - 1), names.length - 1)).join(`, `);
+};
+
+const generateCountry = () => {
+  const country = [
+    `USA`,
+    `Great Britain`,
+    `Ireland`,
+    `Poland`,
+    `Russia`
+  ];
+  const randomIndex = getRandomInteger(0, country.length - 1);
+
+  return country[randomIndex];
 };
 
 export const generateFilmCard = () => {
   const commentNumber = getRandomInteger(0, 5);
   const filmTitle = generateFilmTitle();
+  const filmYear = `19` + getRandomInteger(10, 99);
+  const ageLimit = getRandomInteger(0, 99);
 
   return {
+    ageLimit,
     title: filmTitle,
+    originalTitle: filmTitle,
     rating: getRandomInteger(0, 9) + `.` + getRandomInteger(0, 9),
-    year: `19` + getRandomInteger(10, 99),
+    fullDate: generateDate(filmYear),
+    year: filmYear,
     duration: generateDuration(),
     genre: generateGenre(),
     src: generatePoster(filmTitle),
     description: generateDescription(),
-    comments: commentNumber,
-    commentList: generateComments(commentNumber),
+    comment: {
+      commentNumber,
+      commentList: generateComments(commentNumber),
+      authorList: generateAuthors(commentNumber),
+      commentDate: generateCommentDate(commentNumber),
+    },
     director: generateDirectorName(),
     writers: generateWriterNames(),
     actors: generateActorNames(),
+    country: generateCountry(),
   };
 };

@@ -1,5 +1,5 @@
 export const createFilmDetailsPopup = (card) => {
-  const {title, rating, year, duration, genre, src, description, comments, director, writers} = card;
+  const {title, rating, duration, genre, src, description, comments, director, writers, originalTitle, fullDate} = card;
 
   return (
     `<section class="film-details">
@@ -19,7 +19,7 @@ export const createFilmDetailsPopup = (card) => {
             <div class="film-details__info-head">
               <div class="film-details__title-wrap">
                 <h3 class="film-details__title">${title}</h3>
-                <p class="film-details__title-original">Original: ${title}</p>
+                <p class="film-details__title-original">Original: ${originalTitle}</p>
               </div>
 
               <div class="film-details__rating">
@@ -42,7 +42,7 @@ export const createFilmDetailsPopup = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">30 March ${year}</td>
+                <td class="film-details__cell">${fullDate}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
@@ -56,8 +56,8 @@ export const createFilmDetailsPopup = (card) => {
                 <td class="film-details__term">Genres</td>
                 <td class="film-details__cell">
                   <span class="film-details__genre">${genre}</span>
-                  <span class="film-details__genre">Film-Noir</span>
-                  <span class="film-details__genre">Mystery</span></td>
+                  <span class="film-details__genre">${genre}</span>
+                  <span class="film-details__genre">${genre}</span></td>
               </tr>
             </table>
 
