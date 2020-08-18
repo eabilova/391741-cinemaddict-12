@@ -46,18 +46,6 @@ const generateDescription = () => {
   return splitDescription.slice(0, getRandomInteger(0, splitDescription.length - 1)).join(`. `);
 };
 
-const generateComments = (commentNumber) => {
-  const comments = [
-    `Понравилось все, и сюжет и игра актеров, особенно главный герой. Если хотите получить заряд положительных эмоций, то сходите, не пожалеете )...`,
-    `Сюжет, оригинальности и зрелищ нет, а также музыка — режиссер специально выбрал несочетающиеся симфонии`,
-    `Фильм, который шокирует и трогает за душу одновременно... Фильм, который я решилась пересмотреть только спустя 6 лет. Фильм, во время просмотра которого невозможно не рыдать...`,
-    `Добрая и поучительная история, напоминающая об уязвимости и беззащитности природы`,
-    `Очень противоречивый фильм. Что сняли по книге?`
-  ];
-
-  return comments.slice(0, commentNumber);
-};
-
 const generateAuthors = (commentNumber) => {
   const authors = [
     `Tim Mocoveev`,
@@ -77,7 +65,7 @@ const generateCommentDate = (commentNumber) => {
     let month = getRandomInteger(1, 12);
     let day = getRandomInteger(1, 31);
     let hour = getRandomInteger(0, 23);
-    let minute = getRandomInteger(0, 59);
+    let minute = getRandomInteger(1, 59);
     let fullDate = year + `/` + month + `/` + day + ` ` + hour + `:` + minute;
     date[i] = fullDate;
   }
@@ -199,6 +187,18 @@ const generateCountry = () => {
   const randomIndex = getRandomInteger(0, country.length - 1);
 
   return country[randomIndex];
+};
+
+export const generateComments = (commentNumber) => {
+  const comments = [
+    `Понравилось все, и сюжет и игра актеров, особенно главный герой. Если хотите получить заряд положительных эмоций, то сходите, не пожалеете )...`,
+    `Сюжет, оригинальности и зрелищ нет, а также музыка — режиссер специально выбрал несочетающиеся симфонии`,
+    `Фильм, который шокирует и трогает за душу одновременно... Фильм, который я решилась пересмотреть только спустя 6 лет. Фильм, во время просмотра которого невозможно не рыдать...`,
+    `Добрая и поучительная история, напоминающая об уязвимости и беззащитности природы`,
+    `Очень противоречивый фильм. Что сняли по книге?`
+  ];
+
+  return comments.slice(0, commentNumber);
 };
 
 export const generateFilmCard = () => {

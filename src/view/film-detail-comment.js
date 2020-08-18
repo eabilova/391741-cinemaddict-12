@@ -1,9 +1,36 @@
+import {generateComments} from '../mock/film-card-template.js';
+
 export const createComment = (commentList, authorList, commentDate) => {
+  const emoji = [
+    `smile.png`,
+    `sleeping.png`,
+    `puke.png`,
+    `angry.png`
+  ];
+  const allComments = generateComments(5);
+  let commentEmoji;
+  switch (commentList) {
+    case allComments[0]:
+      commentEmoji = emoji[0];
+      break;
+    case allComments[1]:
+      commentEmoji = emoji[2];
+      break;
+    case allComments[2]:
+      commentEmoji = emoji[0];
+      break;
+    case allComments[3]:
+      commentEmoji = emoji[1];
+      break;
+    case allComments[4]:
+      commentEmoji = emoji[3];
+      break;
+  }
 
   return (
     `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
-        <img src="./images/emoji/smile.png" width="55" height="55" alt="emoji-smile">
+        <img src="./images/emoji/${commentEmoji}" width="55" height="55" alt="emoji-smile">
       </span>
       <div>
         <p class="film-details__comment-text">${commentList}</p>
