@@ -1,4 +1,4 @@
-import {generateComments} from '../mock/film-card-template.js';
+import {generateComments} from '../mock/film.js';
 
 export const createComment = (commentList, authorList, commentDate) => {
   const emoji = [

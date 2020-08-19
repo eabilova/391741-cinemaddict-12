@@ -9,8 +9,7 @@ import {createShowMoreButton} from './view/show-more-button.js';
 import {createTopFilmList} from './view/top-film-list.js';
 import {createMostCommentedFilmList} from './view/most-commented-list.js';
 import {createStatisticsParagraph} from './view/statistics-paragraph.js';
-// import {createFilmDetailsPopup} from './view/film-detail-popup.js';
-import {generateFilmCard} from './mock/film-card-template.js';
+import {generateFilm} from './mock/film.js';
 import {createFilmPopupSection} from './view/film-detail-popup-section.js';
 import {createFilmPopupForm} from './view/film-detail-popup-form.js';
 import {createFilmPopupTopContainer} from './view/film-detail-top-container.js';
@@ -35,8 +34,8 @@ const renderElement = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const cards = new Array(ALL_CARDS_COUNT).fill().map(generateFilmCard);
-let card;
+const films = new Array(ALL_CARDS_COUNT).fill().map(generateFilm);
+let film;
 
 // Header
 renderElement(header, createUserLevelName(), `beforeend`);
@@ -54,8 +53,8 @@ renderElement(filmList, createFilmListContainer(), `beforeend`);
 
 const filmListContainer = filmList.querySelector(`.films-list__container`);
 for (let i = 0; i < SHOW_COUNT; i++) {
-  renderElement(filmListContainer, createFilmCardTemplate(cards[i]), `beforeend`);
-  card = cards[0];
+  renderElement(filmListContainer, createFilmCardTemplate(films[i]), `beforeend`);
+  film = films[0];
 }
 renderElement(filmList, createShowMoreButton(), `beforeend`);
 
@@ -67,7 +66,7 @@ renderElement(extraFilmList, createFilmListContainer(), `beforeend`);
 const topFilmListContainer = extraFilmList.querySelector(`.films-list__container`);
 
 for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
-  renderElement(topFilmListContainer, createFilmCardTemplate(cards[i]), `beforeend`);
+  renderElement(topFilmListContainer, createFilmCardTemplate(films[i]), `beforeend`);
 }
 
 // Most commented
@@ -78,7 +77,7 @@ renderElement(MostCommentedFilmList, createFilmListContainer(), `beforeend`);
 const MostFilmListContainer = MostCommentedFilmList.querySelector(`.films-list__container`);
 
 for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
-  renderElement(MostFilmListContainer, createFilmCardTemplate(cards[i]), `beforeend`);
+  renderElement(MostFilmListContainer, createFilmCardTemplate(films[i]), `beforeend`);
 }
 
 // Footer
@@ -94,18 +93,18 @@ const popupForm = popupSection.querySelector(`.film-details__inner`);
 renderElement(popupForm, createFilmPopupTopContainer(), `afterbegin`);
 const popupTopContainer = popupForm.querySelector(`.form-details__top-container`);
 
-renderElement(popupTopContainer, createFilmDetailInfoWrap(card), `beforeend`);
+renderElement(popupTopContainer, createFilmDetailInfoWrap(film), `beforeend`);
 renderElement(popupTopContainer, createFilmDetailControls(), `beforeend`);
 
 const popupInfoWrap = popupTopContainer.querySelector(`.film-details__info-wrap`);
-renderElement(popupInfoWrap, createFilmDetailInfo(card), `beforeend`);
+renderElement(popupInfoWrap, createFilmDetailInfo(film), `beforeend`);
 
 // Popup Comment List
-renderElement(popupForm, createFilmPopupBottomContainer(card), `beforeend`);
+renderElement(popupForm, createFilmPopupBottomContainer(film), `beforeend`);
 const popupBottomContainer = popupForm.querySelector(`.form-details__bottom-container`);
 const popupcommentContainer = popupBottomContainer.querySelector(`.film-details__comments-list`);
 
-const {comment} = card;
+const {comment} = film;
 for (let i = 0; i < comment.commentNumber; i++) {
   renderElement(popupcommentContainer, createComment(comment.commentList[i], comment.authorList[i], comment.commentDate[i]), `beforeend`);
 }
