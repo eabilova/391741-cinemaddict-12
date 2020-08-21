@@ -10,5 +10,5 @@ export const formatFilmDuration = (duration) => {
   return duration < hour ?
     `${duration}m`
     :
-    (duration / 60 | 0) + `h ` + duration % 60 + `m`;
+    `${(duration / 60 | 0)}h ${duration % 60}m`;
 };
