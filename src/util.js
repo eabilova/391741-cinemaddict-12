@@ -4,3 +4,12 @@ export const getRandomInteger = (a = 0, b = 1) => {
 
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
+
+export const defineFilmDuration = (duration) => {
+  const hour = 60;
+  if (duration > hour) {
+    return (duration / 60 | 0) + `h ` + duration % 60 + `m`;
+  } else {
+    return duration + `m`;
+  }
+};

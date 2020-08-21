@@ -1,17 +1,7 @@
-
+import {defineFilmDuration} from '../util.js';
 export const createFilmCardTemplate = (card) => {
   const {title, rating, year, duration, genre, src, description, comment} = card;
-
-  const filmDurations = () => {
-    const hour = 60;
-    if (duration > hour) {
-      return (duration / 60 | 0) + `h ` + duration % 60 + `m`;
-    } else {
-      return duration + `m`;
-    }
-  };
-
-  const filmDuration = filmDurations();
+  const filmDuration = defineFilmDuration(duration);
 
   return (
     `<article class="film-card">

@@ -1,16 +1,8 @@
+import {defineFilmDuration} from '../util.js';
+
 export const createFilmDetailInfo = (card) => {
   const {title, rating, duration, genre, description, director, writers, originalTitle, fullDate, country, actors} = card;
-
-  const filmDurations = () => {
-    const hour = 60;
-    if (duration > hour) {
-      return (duration / 60 | 0) + `h ` + duration % 60 + `m`;
-    } else {
-      return duration + `m`;
-    }
-  };
-
-  const filmDuration = filmDurations();
+  const filmDuration = defineFilmDuration(duration);
 
   return (
     `<div class="film-details__info">
