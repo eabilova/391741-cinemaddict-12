@@ -1,6 +1,17 @@
 export const createFilmDetailInfo = (card) => {
   const {title, rating, duration, genre, description, director, writers, originalTitle, fullDate, country, actors} = card;
 
+  const filmDurations = () => {
+    const hour = 60;
+    if (duration > hour) {
+      return (duration / 60 | 0) + `h ` + duration % 60 + `m`;
+    } else {
+      return duration + `m`;
+    }
+  };
+
+  const filmDuration = filmDurations();
+
   return (
     `<div class="film-details__info">
       <div class="film-details__info-head">
@@ -33,7 +44,7 @@ export const createFilmDetailInfo = (card) => {
         </tr>
         <tr class="film-details__row">
           <td class="film-details__term">Runtime</td>
-          <td class="film-details__cell">${duration}</td>
+          <td class="film-details__cell">${filmDuration}</td>
         </tr>
         <tr class="film-details__row">
           <td class="film-details__term">Country</td>

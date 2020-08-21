@@ -1,5 +1,17 @@
+
 export const createFilmCardTemplate = (card) => {
   const {title, rating, year, duration, genre, src, description, comment} = card;
+
+  const filmDurations = () => {
+    const hour = 60;
+    if (duration > hour) {
+      return (duration / 60 | 0) + `h ` + duration % 60 + `m`;
+    } else {
+      return duration + `m`;
+    }
+  };
+
+  const filmDuration = filmDurations();
 
   return (
     `<article class="film-card">
@@ -7,7 +19,7 @@ export const createFilmCardTemplate = (card) => {
     <p class="film-card__rating">${rating}</p>
     <p class="film-card__info">
       <span class="film-card__year">${year}</span>
-      <span class="film-card__duration">${duration}</span>
+      <span class="film-card__duration">${filmDuration}</span>
       <span class="film-card__genre">${genre}</span>
     </p>
     <img src="./images/posters/${src}" alt="" class="film-card__poster">

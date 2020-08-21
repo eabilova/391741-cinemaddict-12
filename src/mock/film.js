@@ -153,10 +153,7 @@ const generateCommentDate = (commentNumber) => {
 };
 
 const generateDuration = () => {
-  const hour = getRandomInteger(0, 2);
-  const minute = getRandomInteger(0, 59);
-
-  return hour + `h ` + minute + `m`;
+  return getRandomInteger(0, 180);
 };
 
 const generateDate = (filmYear) => {
