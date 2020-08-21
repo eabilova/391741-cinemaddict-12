@@ -1,8 +1,7 @@
-import {defineFilmDuration} from '../util.js';
+import {formatFilmDuration} from '../util.js';
 
 export const createFilmDetailInfo = (card) => {
   const {title, rating, duration, genre, description, director, writers, originalTitle, fullDate, country, actors} = card;
-  const filmDuration = defineFilmDuration(duration);
 
   return (
     `<div class="film-details__info">
@@ -36,7 +35,7 @@ export const createFilmDetailInfo = (card) => {
         </tr>
         <tr class="film-details__row">
           <td class="film-details__term">Runtime</td>
-          <td class="film-details__cell">${filmDuration}</td>
+          <td class="film-details__cell">${formatFilmDuration(duration)}</td>
         </tr>
         <tr class="film-details__row">
           <td class="film-details__term">Country</td>

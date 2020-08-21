@@ -1,7 +1,6 @@
-import {defineFilmDuration} from '../util.js';
+import {formatFilmDuration} from '../util.js';
 export const createFilmCardTemplate = (card) => {
   const {title, rating, year, duration, genre, src, description, comment} = card;
-  const filmDuration = defineFilmDuration(duration);
 
   return (
     `<article class="film-card">
@@ -9,7 +8,7 @@ export const createFilmCardTemplate = (card) => {
     <p class="film-card__rating">${rating}</p>
     <p class="film-card__info">
       <span class="film-card__year">${year}</span>
-      <span class="film-card__duration">${filmDuration}</span>
+      <span class="film-card__duration">${formatFilmDuration(duration)}</span>
       <span class="film-card__genre">${genre}</span>
     </p>
     <img src="./images/posters/${src}" alt="" class="film-card__poster">
