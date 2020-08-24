@@ -1,9 +1,9 @@
 export const createFilmPopupBottomContainer = (card) => {
-  const {comment} = card;
+  const {commentNumber} = card;
   return (
     `<div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
-      <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comment.commentNumber}</span></h3>
+      <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentNumber}</span></h3>
 
           <ul class="film-details__comments-list">
           </ul>

@@ -20,7 +20,6 @@ import {createFilmPopupBottomContainer} from './view/film-detail-bottom-containe
 import {createComment} from './view/film-detail-comment.js';
 import {generateMenuSiteData} from './mock/site-menu.js';
 
-
 const ALL_CARDS_COUNT = 20;
 const SHOW_COUNT = 5;
 const EXTRA_CARDS_COUNT = 2;
@@ -35,7 +34,19 @@ const renderElement = (container, template, place) => {
 };
 
 const films = new Array(ALL_CARDS_COUNT).fill().map(generateFilm);
-let film;
+
+const sortTopRatedFilms = () => {
+  const ratedFilms = films.sort((a, b) => b.rating - a.rating);
+  return ratedFilms.slice(0, EXTRA_CARDS_COUNT);
+};
+const sortMostCommentedFilms = () => {
+  const commentedFilms = films.sort((a, b) => b.commentNumber - a.commentNumber);
+  return commentedFilms.slice(0, EXTRA_CARDS_COUNT);
+};
+
+const showedFilms = films.slice(0, SHOW_COUNT);
+const topRated = sortTopRatedFilms();
+const mostCommentedFilms = sortMostCommentedFilms();
 
 // Header
 renderElement(header, createUserLevelName(), `beforeend`);
@@ -52,10 +63,8 @@ const filmList = filmSection.querySelector(`.films-list`);
 renderElement(filmList, createFilmListContainer(), `beforeend`);
 
 const filmListContainer = filmList.querySelector(`.films-list__container`);
-for (let i = 0; i < SHOW_COUNT; i++) {
-  renderElement(filmListContainer, createFilmCardTemplate(films[i]), `beforeend`);
-  film = films[0];
-}
+showedFilms.forEach((film) => renderElement(filmListContainer, createFilmCardTemplate(film), `beforeend`));
+
 renderElement(filmList, createShowMoreButton(), `beforeend`);
 
 // Top rated
@@ -65,9 +74,9 @@ const extraFilmList = filmSection.querySelector(`.films-list--extra`);
 renderElement(extraFilmList, createFilmListContainer(), `beforeend`);
 const topFilmListContainer = extraFilmList.querySelector(`.films-list__container`);
 
-for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
-  renderElement(topFilmListContainer, createFilmCardTemplate(films[i]), `beforeend`);
-}
+topRated.forEach(function (film) {
+  renderElement(topFilmListContainer, createFilmCardTemplate(film), `beforeend`);
+});
 
 // Most commented
 renderElement(filmSection, createMostCommentedFilmList(), `beforeend`);
@@ -76,9 +85,9 @@ const MostCommentedFilmList = filmSection.querySelector(`.films-list--extra:last
 renderElement(MostCommentedFilmList, createFilmListContainer(), `beforeend`);
 const MostFilmListContainer = MostCommentedFilmList.querySelector(`.films-list__container`);
 
-for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
-  renderElement(MostFilmListContainer, createFilmCardTemplate(films[i]), `beforeend`);
-}
+mostCommentedFilms.forEach(function (film) {
+  renderElement(MostFilmListContainer, createFilmCardTemplate(film), `beforeend`);
+});
 
 // Footer
 renderElement(footerStatistics, createStatisticsParagraph(), `afterbegin`);
@@ -93,18 +102,17 @@ const popupForm = popupSection.querySelector(`.film-details__inner`);
 renderElement(popupForm, createFilmPopupTopContainer(), `afterbegin`);
 const popupTopContainer = popupForm.querySelector(`.form-details__top-container`);
 
-renderElement(popupTopContainer, createFilmDetailInfoWrap(film), `beforeend`);
+renderElement(popupTopContainer, createFilmDetailInfoWrap(films[0]), `beforeend`);
 renderElement(popupTopContainer, createFilmDetailControls(), `beforeend`);
 
 const popupInfoWrap = popupTopContainer.querySelector(`.film-details__info-wrap`);
-renderElement(popupInfoWrap, createFilmDetailInfo(film), `beforeend`);
+renderElement(popupInfoWrap, createFilmDetailInfo(films[0]), `beforeend`);
 
 // Popup Comment List
-renderElement(popupForm, createFilmPopupBottomContainer(film), `beforeend`);
+renderElement(popupForm, createFilmPopupBottomContainer(films[0]), `beforeend`);
 const popupBottomContainer = popupForm.querySelector(`.form-details__bottom-container`);
 const popupcommentContainer = popupBottomContainer.querySelector(`.film-details__comments-list`);
 
-const {comment} = film;
-for (let i = 0; i < comment.commentNumber; i++) {
-  renderElement(popupcommentContainer, createComment(comment.commentList[i], comment.authorList[i], comment.commentDate[i]), `beforeend`);
-}
+const {comment} = films[0];
+comment.forEach((item) => renderElement(popupcommentContainer, createComment(item.commentList, item.authorList, item.commentDate), `beforeend`));
+

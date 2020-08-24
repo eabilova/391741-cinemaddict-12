@@ -106,9 +106,10 @@ const COUNTRY = [
   `Russia`
 ];
 
+
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
 
-const COMMENTS = [
+export const COMMENTS = [
   `Понравилось все, и сюжет и игра актеров, особенно главный герой. Если хотите получить заряд положительных эмоций, то сходите, не пожалеете )...`,
   `Сюжет, оригинальности и зрелищ нет, а также музыка — режиссер специально выбрал несочетающиеся симфонии`,
   `Фильм, который шокирует и трогает за душу одновременно... Фильм, который я решилась пересмотреть только спустя 6 лет. Фильм, во время просмотра которого невозможно не рыдать...`,
@@ -134,22 +135,20 @@ const generateDescription = () => {
   return splitDescription.slice(0, getRandomInteger(0, splitDescription.length - 1)).join(`. `);
 };
 
-const generateAuthors = (commentNumber) => {
-  return AUTHORS.slice(0, commentNumber);
+const generateAuthors = () => {
+  const randomIndex = getRandomInteger(0, AUTHORS.length - 1);
+
+  return AUTHORS[randomIndex];
 };
 
-const generateCommentDate = (commentNumber) => {
-  let date = [];
-  for (let i = 0; i < commentNumber; i++) {
-    let year = getRandomInteger(2000, 2020);
-    let month = getRandomInteger(1, 12);
-    let day = getRandomInteger(1, 31);
-    let hour = getRandomInteger(0, 23);
-    let minute = getRandomInteger(1, 59);
-    date[i] = year + `/` + month + `/` + day + ` ` + hour + `:` + minute;
-  }
+const generateCommentDate = () => {
+  let year = getRandomInteger(2000, 2020);
+  let month = getRandomInteger(1, 12);
+  let day = getRandomInteger(1, 31);
+  let hour = getRandomInteger(0, 23);
+  let minute = getRandomInteger(1, 59);
 
-  return date;
+  return year + `/` + month + `/` + day + ` ` + hour + `:` + minute;
 };
 
 const generateDuration = () => {
@@ -187,8 +186,23 @@ const generateCountry = () => {
   return COUNTRY[randomIndex];
 };
 
-export const generateComments = (commentNumber) => {
-  return COMMENTS.slice(0, commentNumber);
+export const generateComments = () => {
+  const randomIndex = getRandomInteger(0, COMMENTS.length - 1);
+
+  return COMMENTS[randomIndex];
+};
+
+const generateCommentList = (commentNumber) => {
+  let comments = [];
+  for (let i = 0; i < commentNumber; i++) {
+    let comment = {
+      commentList: generateComments(),
+      authorList: generateAuthors(),
+      commentDate: generateCommentDate(),
+    };
+    comments[i] = comment;
+  }
+  return comments;
 };
 
 export const generateFilm = () => {
@@ -199,6 +213,7 @@ export const generateFilm = () => {
 
   return {
     ageLimit,
+    commentNumber,
     title: filmTitle,
     originalTitle: filmTitle,
     rating: getRandomInteger(0, 99) / 10,
@@ -208,15 +223,10 @@ export const generateFilm = () => {
     genre: generateGenre(),
     src: generatePoster(),
     description: generateDescription(),
-    comment: {
-      commentNumber,
-      commentList: generateComments(commentNumber),
-      authorList: generateAuthors(commentNumber),
-      commentDate: generateCommentDate(commentNumber),
-    },
     director: generateDirectorName(),
     writers: generateWriterNames(),
     actors: generateActorNames(),
     country: generateCountry(),
+    comment: generateCommentList(commentNumber),
   };
 };

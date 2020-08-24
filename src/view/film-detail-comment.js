@@ -1,4 +1,4 @@
-import {generateComments} from '../mock/film.js';
+import {COMMENTS} from '../mock/film.js';
 
 const emoji = [
   `smile.png`,
@@ -8,22 +8,21 @@ const emoji = [
 ];
 
 export const createComment = (commentList, authorList, commentDate) => {
-  const allComments = generateComments(5);
   let commentEmoji;
   switch (commentList) {
-    case allComments[0]:
+    case COMMENTS[0]:
       commentEmoji = emoji[0];
       break;
-    case allComments[1]:
+    case COMMENTS[1]:
       commentEmoji = emoji[2];
       break;
-    case allComments[2]:
+    case COMMENTS[2]:
       commentEmoji = emoji[0];
       break;
-    case allComments[3]:
+    case COMMENTS[3]:
       commentEmoji = emoji[1];
       break;
-    case allComments[4]:
+    case COMMENTS[4]:
       commentEmoji = emoji[3];
       break;
   }
