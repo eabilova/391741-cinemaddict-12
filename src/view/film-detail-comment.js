@@ -7,9 +7,9 @@ const emoji = [
   `angry.png`
 ];
 
-export const createComment = (commentList, authorList, commentDate) => {
+export const createComment = (message, author, date) => {
   let commentEmoji;
-  switch (commentList) {
+  switch (message) {
     case COMMENTS[0]:
       commentEmoji = emoji[0];
       break;
@@ -33,10 +33,10 @@ export const createComment = (commentList, authorList, commentDate) => {
         <img src="./images/emoji/${commentEmoji}" width="55" height="55" alt="emoji-smile">
       </span>
       <div>
-        <p class="film-details__comment-text">${commentList}</p>
+        <p class="film-details__comment-text">${message}</p>
         <p class="film-details__comment-info">
-          <span class="film-details__comment-author">${authorList}</span>
-          <span class="film-details__comment-day">${commentDate}</span>
+          <span class="film-details__comment-author">${author}</span>
+          <span class="film-details__comment-day">${date}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>

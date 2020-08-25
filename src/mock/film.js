@@ -106,6 +106,8 @@ const COUNTRY = [
   `Russia`
 ];
 
+const GENRE_NUMBER = 3;
+
 
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
 
@@ -161,9 +163,13 @@ const generateDate = (filmYear) => {
 };
 
 const generateGenre = () => {
-  const randomIndex = getRandomInteger(0, GENRE.length - 1);
+  const genres = [];
+  for (let i = 0; i < GENRE_NUMBER; i++) {
+    const randomIndex = getRandomInteger(0, GENRE.length - 1);
+    genres[i] = GENRE[randomIndex];
+  }
 
-  return GENRE[randomIndex];
+  return genres;
 };
 
 const generateDirectorName = () => {
@@ -195,12 +201,11 @@ export const generateComments = () => {
 const generateCommentList = (commentNumber) => {
   let comments = [];
   for (let i = 0; i < commentNumber; i++) {
-    let comment = {
-      commentList: generateComments(),
-      authorList: generateAuthors(),
-      commentDate: generateCommentDate(),
+    comments[i] = {
+      message: generateComments(),
+      author: generateAuthors(),
+      date: generateCommentDate(),
     };
-    comments[i] = comment;
   }
   return comments;
 };
@@ -213,20 +218,19 @@ export const generateFilm = () => {
 
   return {
     ageLimit,
-    commentNumber,
     title: filmTitle,
     originalTitle: filmTitle,
     rating: getRandomInteger(0, 99) / 10,
     fullDate: generateDate(filmYear),
     year: filmYear,
     duration: generateDuration(),
-    genre: generateGenre(),
+    genres: generateGenre(),
     src: generatePoster(),
     description: generateDescription(),
     director: generateDirectorName(),
     writers: generateWriterNames(),
     actors: generateActorNames(),
     country: generateCountry(),
-    comment: generateCommentList(commentNumber),
+    comments: generateCommentList(commentNumber),
   };
 };

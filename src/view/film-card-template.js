@@ -1,6 +1,6 @@
 import {formatFilmDuration} from '../util.js';
 export const createFilmCardTemplate = (card) => {
-  const {title, rating, year, duration, genre, src, description, commentNumber} = card;
+  const {title, rating, year, duration, genres, src, description, comments} = card;
 
   return (
     `<article class="film-card">
@@ -9,11 +9,11 @@ export const createFilmCardTemplate = (card) => {
     <p class="film-card__info">
       <span class="film-card__year">${year}</span>
       <span class="film-card__duration">${formatFilmDuration(duration)}</span>
-      <span class="film-card__genre">${genre}</span>
+      <span class="film-card__genre">${genres[2]}</span>
     </p>
     <img src="./images/posters/${src}" alt="" class="film-card__poster">
     <p class="film-card__description">${description}</p>
-    <a class="film-card__comments">Comments: ${commentNumber}</a>
+    <a class="film-card__comments">Comments: ${comments.length}</a>
     <form class="film-card__controls">
       <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
       <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
