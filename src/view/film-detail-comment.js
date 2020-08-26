@@ -27,6 +27,11 @@ export const createComment = (message, author, date) => {
       break;
   }
 
+  const changeDateFormat = () => {
+    const releaseDate = new Date(date);
+    return releaseDate.getFullYear() + `/` + releaseDate.getMonth() + `/` + releaseDate.getDate() + ` ` + releaseDate.getHours() + `:` + releaseDate.getMinutes();
+  };
+
   return (
     `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
@@ -36,7 +41,7 @@ export const createComment = (message, author, date) => {
         <p class="film-details__comment-text">${message}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${author}</span>
-          <span class="film-details__comment-day">${date}</span>
+          <span class="film-details__comment-day">${changeDateFormat()}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>
