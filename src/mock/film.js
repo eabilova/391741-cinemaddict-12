@@ -146,7 +146,7 @@ const generateAuthors = () => {
 const generateCommentDate = () => {
   let date = new Date();
   date.setFullYear(getRandomInteger(1970, 2020));
-  date.setMonth(getRandomInteger(0, 11));
+  date.setMonth(getRandomInteger(1, 12));
   date.setDate(getRandomInteger(0, 31));
   date.setHours(getRandomInteger(0, 23));
   date.setMinutes(getRandomInteger(0, 59));
