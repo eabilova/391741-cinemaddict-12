@@ -144,13 +144,11 @@ const generateAuthors = () => {
 };
 
 const generateCommentDate = () => {
-  let year = getRandomInteger(2000, 2020);
-  let month = getRandomInteger(1, 12);
-  let day = getRandomInteger(1, 31);
-  let hour = getRandomInteger(0, 23);
-  let minute = getRandomInteger(1, 59);
+  let date = new Date().toISOString();
+  date = date.substring(0, 16);
+  let releaseDate = date.replace(`T`, ` `);
 
-  return year + `/` + month + `/` + day + ` ` + hour + `:` + minute;
+  return releaseDate;
 };
 
 const generateDuration = () => {
