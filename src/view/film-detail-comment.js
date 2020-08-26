@@ -29,7 +29,7 @@ export const createComment = (message, author, date) => {
 
   const changeDateFormat = () => {
     const releaseDate = new Date(date);
-    return releaseDate.getFullYear() + `/` + releaseDate.getMonth() + `/` + releaseDate.getDate() + ` ` + releaseDate.getHours() + `:` + releaseDate.getMinutes();
+    return `${releaseDate.getFullYear()}/${releaseDate.getMonth()}/${releaseDate.getDate()} ${releaseDate.getHours()}:${releaseDate.getMinutes()}`;
   };
 
   return (
