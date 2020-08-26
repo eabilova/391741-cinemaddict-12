@@ -151,7 +151,7 @@ const generateCommentDate = () => {
   date.setHours(getRandomInteger(0, 23));
   date.setMinutes(getRandomInteger(0, 59));
 
-  return date.toDateString();
+  return date.toGMTString();
 };
 
 const generateDuration = () => {
