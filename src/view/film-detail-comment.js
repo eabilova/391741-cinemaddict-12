@@ -1,3 +1,4 @@
+import {createElement} from "../util.js";
 import {COMMENTS} from '../mock/film.js';
 
 const emoji = [
@@ -7,7 +8,7 @@ const emoji = [
   `angry.png`
 ];
 
-export const createComment = (message, author, date) => {
+const createComment = (message, author, date) => {
   let commentEmoji;
   switch (message) {
     case COMMENTS[0]:
@@ -48,3 +49,28 @@ export const createComment = (message, author, date) => {
     </li>`
   );
 };
+
+export default class Comment {
+  constructor(message, author, date) {
+    this._message = message;
+    this._author = author;
+    this._date = date;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createComment(this._message, this._author, this._date);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

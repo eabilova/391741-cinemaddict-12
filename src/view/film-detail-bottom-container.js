@@ -1,4 +1,6 @@
-export const createFilmPopupBottomContainer = (card) => {
+import {createElement} from "../util.js";
+
+const createFilmPopupBottomContainer = (card) => {
   const {comments} = card;
   return (
     `<div class="form-details__bottom-container">
@@ -41,3 +43,26 @@ export const createFilmPopupBottomContainer = (card) => {
     </div>`
   );
 };
+
+export default class FilmPopupBottomContainer {
+  constructor(card) {
+    this._card = card;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmPopupBottomContainer(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

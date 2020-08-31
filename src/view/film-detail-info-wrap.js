@@ -1,4 +1,6 @@
-export const createFilmDetailInfoWrap = (card) => {
+import {createElement} from "../util.js";
+
+const createFilmDetailInfoWrap = (card) => {
   const {src, ageLimit} = card;
 
   return (
@@ -11,3 +13,27 @@ export const createFilmDetailInfoWrap = (card) => {
     </div>`
   );
 };
+
+export default class FilmDetailInfoWrap {
+  constructor(card) {
+    this._card = card;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailInfoWrap(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+

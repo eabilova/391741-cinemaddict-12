@@ -1,6 +1,6 @@
-import {formatFilmDuration} from '../util.js';
+import {createElement, formatFilmDuration} from "../util.js";
 
-export const createFilmDetailInfo = (card) => {
+const createFilmDetailInfo = (card) => {
   const {title, rating, duration, description, director, writers, originalTitle, fullDate, country, actors} = card;
 
   return (
@@ -54,3 +54,26 @@ export const createFilmDetailInfo = (card) => {
     </div>`
   );
 };
+
+export default class FilmDetailInfo {
+  constructor(card) {
+    this._card = card;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailInfo(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
