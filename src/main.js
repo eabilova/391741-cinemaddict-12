@@ -73,6 +73,7 @@ const createPopupCard = (film) => {
   const {comments} = film;
   comments.forEach((comment) => render(popupcommentContainer, new Comment(comment.message, comment.author, comment.date).getElement(), RenderPosition.BEFOREEND));
 
+
   const openedPopup = document.querySelector(`.film-details`);
   const onEscKeyDown = (evt) => {
     if (evt.key === `Escape` || evt.key === `Esc`) {
@@ -83,17 +84,22 @@ const createPopupCard = (film) => {
 
   popupTopContainer.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
     document.body.removeChild(openedPopup);
+    document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
   document.addEventListener(`keydown`, onEscKeyDown);
 };
 
 const renderPopup = (film) => {
-  document.body.appendChild(createPopupCard(film));
+  const popup = document.createElement(createPopupCard(film));
+  document.body.appendChild(popup);
 };
 
 const renderFilms = (container, film) => {
   render(container, new FilmCardTemplate(film).getElement(), RenderPosition.BEFOREEND);
+  onFilmElementMouseClick(`.film-card__poster`, film);
+  onFilmElementMouseClick(`.film-card__title`, film);
+  onFilmElementMouseClick(`.film-card__comments`, film);
 };
 
 const onFilmElementMouseClick = (filmClass, film) => {
@@ -122,13 +128,9 @@ render(filmSection.getElement(), filmList.getElement(), RenderPosition.AFTERBEGI
 const filmListContainer = new FilmListContainer();
 render(filmList.getElement(), filmListContainer.getElement(), RenderPosition.BEFOREEND);
 
-for (let i = 0; i < showedFilms.length; i++) {
-  renderFilms(filmListContainer.getElement(), showedFilms[i]);
-
-  onFilmElementMouseClick(`.film-card__poster`, showedFilms[i]);
-  onFilmElementMouseClick(`.film-card__title`, showedFilms[i]);
-  onFilmElementMouseClick(`.film-card__comments`, showedFilms[i]);
-}
+showedFilms.forEach((film) => {
+  renderFilms(filmListContainer.getElement(), film);
+});
 
 render(filmList.getElement(), new ShowMoreButton().getElement(), RenderPosition.BEFOREEND);
 
