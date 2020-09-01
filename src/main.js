@@ -74,9 +74,18 @@ const createPopupCard = (film) => {
   comments.forEach((comment) => render(popupcommentContainer, new Comment(comment.message, comment.author, comment.date).getElement(), RenderPosition.BEFOREEND));
 
   const openedPopup = document.querySelector(`.film-details`);
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      document.body.removeChild(openedPopup);
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
   popupTopContainer.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
     document.body.removeChild(openedPopup);
   });
+
+  document.addEventListener(`keydown`, onEscKeyDown);
 };
 
 const renderPopup = (film) => {
