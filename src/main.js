@@ -80,18 +80,10 @@ const createPopupCard = (clickedCard) => {
 
 const renderFilms = (container, film) => {
   render(container, new FilmCardTemplate(film).getElement(), RenderPosition.BEFOREEND);
+};
 
-  filmListContainer.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
-    main.appendChild(createPopupCard(film));
-  });
-
-  filmListContainer.getElement().querySelector(`.film-card__title`).addEventListener(`click`, () => {
-    main.appendChild(createPopupCard(film));
-  });
-
-  filmListContainer.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, () => {
-    main.appendChild(createPopupCard(film));
-  });
+const renderPopup = (film) => {
+  main.appendChild(createPopupCard(film));
 };
 
 const showedFilms = films.slice(0, SHOW_COUNT);
@@ -114,6 +106,18 @@ render(filmList.getElement(), filmListContainer.getElement(), RenderPosition.BEF
 
 for (let i = 0; i < showedFilms.length; i++) {
   renderFilms(filmListContainer.getElement(), showedFilms[i]);
+
+  filmListContainer.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
+    renderPopup(showedFilms[i]);
+  });
+
+  filmListContainer.getElement().querySelector(`.film-card__title`).addEventListener(`click`, () => {
+    renderPopup(showedFilms[i]);
+  });
+
+  filmListContainer.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, () => {
+    renderPopup(showedFilms[i]);
+  });
 }
 
 render(filmList.getElement(), new ShowMoreButton().getElement(), RenderPosition.BEFOREEND);
