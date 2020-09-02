@@ -1,25 +1,26 @@
-import {createUserLevelName} from './view/level-name.js';
-import {createSiteMenu} from './view/site-menu.js';
-import {createSortingElement} from './view/sorting-element.js';
-import {createFilmSection} from './view/film-section.js';
-import {createFilmList} from './view/film-list.js';
-import {createFilmListContainer} from './view/film-list-container.js';
-import {createFilmCardTemplate} from './view/film-card-template.js';
-import {createShowMoreButton} from './view/show-more-button.js';
-import {createTopFilmList} from './view/top-film-list.js';
-import {createMostCommentedFilmList} from './view/most-commented-list.js';
-import {createStatisticsParagraph} from './view/statistics-paragraph.js';
+import {render, RenderPosition} from './util.js';
+import UserLevelName from './view/level-name.js';
+import SiteMenu from './view/site-menu.js';
+import SortingElement from './view/sorting-element.js';
+import FilmSection from './view/film-section.js';
+import FilmList from './view/film-list.js';
+import FilmListContainer from './view/film-list-container.js';
+import FilmCardTemplate from './view/film-card-template.js';
+import ShowMoreButton from './view/show-more-button.js';
+import TopFilmList from './view/top-film-list.js';
+import MostCommentedFilmList from './view/most-commented-list.js';
+import StatisticsParagraph from './view/statistics-paragraph.js';
+import FilmPopupSection from './view/film-detail-popup-section.js';
+import FilmPopupForm from './view/film-detail-popup-form.js';
+import FilmPopupTopContainer from './view/film-detail-top-container.js';
+import FilmDetailInfoWrap from './view/film-detail-info-wrap.js';
+import FilmDetailControls from './view/film-detail-controls.js';
+import FilmDetailInfo from './view/film-detail-info.js';
+import FilmPopupBottomContainer from './view/film-detail-bottom-container.js';
+import Comment from './view/film-detail-comment.js';
+import FilmDetailsGenre from './view/film-details-genre.js';
 import {generateFilm} from './mock/film.js';
-import {createFilmPopupSection} from './view/film-detail-popup-section.js';
-import {createFilmPopupForm} from './view/film-detail-popup-form.js';
-import {createFilmPopupTopContainer} from './view/film-detail-top-container.js';
-import {createFilmDetailInfoWrap} from './view/film-detail-info-wrap.js';
-import {createFilmDetailControls} from './view/film-detail-controls.js';
-import {createFilmDetailInfo} from './view/film-detail-info.js';
-import {createFilmPopupBottomContainer} from './view/film-detail-bottom-container.js';
-import {createComment} from './view/film-detail-comment.js';
 import {generateMenuSiteData} from './mock/site-menu.js';
-import {createFilmDetailsGenre} from './view/film-details-genre.js';
 
 const ALL_CARDS_COUNT = 20;
 const SHOW_COUNT = 5;
@@ -29,10 +30,6 @@ const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
 const footerStatistics = document.querySelector(`.footer__statistics`);
 const footer = document.querySelector(`.footer`);
-
-const renderElement = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 const films = new Array(ALL_CARDS_COUNT).fill().map(generateFilm);
 
@@ -45,77 +42,122 @@ const sortMostCommentedFilms = () => {
   return commentedFilms.slice(0, EXTRA_CARDS_COUNT);
 };
 
+const createPopupCard = (film) => {
+  // Popup
+  const popupSection = new FilmPopupSection();
+
+  const popupForm = new FilmPopupForm();
+  render(popupSection.getElement(), popupForm.getElement(), RenderPosition.AFTERBEGIN);
+
+  const popupTopContainer = new FilmPopupTopContainer();
+  render(popupForm.getElement(), popupTopContainer.getElement(), RenderPosition.AFTERBEGIN);
+
+  const popupInfoWrap = new FilmDetailInfoWrap(film);
+  render(popupTopContainer.getElement(), popupInfoWrap.getElement(), RenderPosition.BEFOREEND);
+  render(popupTopContainer.getElement(), new FilmDetailControls().getElement(), RenderPosition.BEFOREEND);
+
+  render(popupInfoWrap.getElement(), new FilmDetailInfo(film).getElement(), RenderPosition.BEFOREEND);
+
+  const genreList = popupInfoWrap.getElement().querySelector(`.film-details__row:last-of-type`);
+  const genreContainer = genreList.querySelector(`.film-details__cell`);
+  const {genres} = film;
+  genres.forEach((genre) => render(genreContainer, new FilmDetailsGenre(genre).getElement(), RenderPosition.BEFOREEND));
+
+
+  // Popup Comment List
+  render(popupForm.getElement(), new FilmPopupBottomContainer(film).getElement(), RenderPosition.BEFOREEND);
+  const popupBottomContainer = popupForm.getElement().querySelector(`.form-details__bottom-container`);
+  const popupcommentContainer = popupBottomContainer.querySelector(`.film-details__comments-list`);
+
+  const {comments} = film;
+  comments.forEach((comment) => render(popupcommentContainer, new Comment(comment.message, comment.author, comment.date).getElement(), RenderPosition.BEFOREEND));
+
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      closePopup(popupSection.getElement(), onEscKeyDown);
+    }
+  };
+
+  popupTopContainer.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
+    closePopup(popupSection.getElement(), onEscKeyDown);
+  });
+
+  document.addEventListener(`keydown`, onEscKeyDown);
+  return popupSection.getElement();
+};
+
+const closePopup = (openedPopup, removeFunction) => {
+  openedPopup.remove();
+  document.removeEventListener(`keydown`, removeFunction);
+};
+
+const renderPopup = (film) => {
+  document.body.appendChild(createPopupCard(film));
+};
+
+const renderFilms = (container, film) => {
+  const filmCard = new FilmCardTemplate(film);
+  render(container, filmCard.getElement(), RenderPosition.BEFOREEND);
+  onFilmElementMouseClick(filmCard, `.film-card__poster`, film,);
+  onFilmElementMouseClick(filmCard, `.film-card__title`, film);
+  onFilmElementMouseClick(filmCard, `.film-card__comments`, film);
+};
+
+const onFilmElementMouseClick = (container, filmClass, film) => {
+  container.getElement().querySelector(filmClass).addEventListener(`click`, () => {
+    renderPopup(film);
+  });
+};
+
 const showedFilms = films.slice(0, SHOW_COUNT);
 const topRated = sortTopRatedFilms();
 const mostCommentedFilms = sortMostCommentedFilms();
 
 // Header
-renderElement(header, createUserLevelName(), `beforeend`);
+render(header, new UserLevelName().getElement(), RenderPosition.BEFOREEND);
 const menuInfo = generateMenuSiteData();
-renderElement(main, createSiteMenu(menuInfo), `afterbegin`);
-renderElement(main, createSortingElement(), `beforeend`);
-renderElement(main, createFilmSection(), `beforeend`);
+render(main, new SiteMenu(menuInfo).getElement(), RenderPosition.AFTERBEGIN);
+render(main, new SortingElement().getElement(), RenderPosition.BEFOREEND);
+const filmSection = new FilmSection();
+render(main, filmSection.getElement(), RenderPosition.BEFOREEND);
 
 // All films
-const filmSection = main.querySelector(`.films`);
-renderElement(filmSection, createFilmList(), `afterbegin`);
+const filmList = new FilmList();
+render(filmSection.getElement(), filmList.getElement(), RenderPosition.AFTERBEGIN);
+const filmListContainer = new FilmListContainer();
+render(filmList.getElement(), filmListContainer.getElement(), RenderPosition.BEFOREEND);
 
-const filmList = filmSection.querySelector(`.films-list`);
-renderElement(filmList, createFilmListContainer(), `beforeend`);
+showedFilms.forEach((film) => {
+  renderFilms(filmListContainer.getElement(), film);
+});
 
-const filmListContainer = filmList.querySelector(`.films-list__container`);
-showedFilms.forEach((film) => renderElement(filmListContainer, createFilmCardTemplate(film), `beforeend`));
-
-renderElement(filmList, createShowMoreButton(), `beforeend`);
+render(filmList.getElement(), new ShowMoreButton().getElement(), RenderPosition.BEFOREEND);
 
 // Top rated
-renderElement(filmSection, createTopFilmList(), `beforeend`);
-const extraFilmList = filmSection.querySelector(`.films-list--extra`);
+render(filmSection.getElement(), new TopFilmList().getElement(), RenderPosition.BEFOREEND);
+const extraFilmList = filmSection.getElement().querySelector(`.films-list--extra`);
 
-renderElement(extraFilmList, createFilmListContainer(), `beforeend`);
+render(extraFilmList, new FilmListContainer().getElement(), RenderPosition.BEFOREEND);
 const topFilmListContainer = extraFilmList.querySelector(`.films-list__container`);
 
-topRated.forEach((film) => renderElement(topFilmListContainer, createFilmCardTemplate(film), `beforeend`));
+topRated.forEach((film) => {
+  renderFilms(topFilmListContainer, film);
+});
+
 
 // Most commented
-renderElement(filmSection, createMostCommentedFilmList(), `beforeend`);
-const MostCommentedFilmList = filmSection.querySelector(`.films-list--extra:last-child`);
+render(filmSection.getElement(), new MostCommentedFilmList().getElement(), RenderPosition.BEFOREEND);
+const MostCommentedFilms = filmSection.getElement().querySelector(`.films-list--extra:last-child`);
 
-renderElement(MostCommentedFilmList, createFilmListContainer(), `beforeend`);
-const MostFilmListContainer = MostCommentedFilmList.querySelector(`.films-list__container`);
+render(MostCommentedFilms, new FilmListContainer().getElement(), RenderPosition.BEFOREEND);
+const MostFilmListContainer = MostCommentedFilms.querySelector(`.films-list__container`);
 
-mostCommentedFilms.forEach((film) => renderElement(MostFilmListContainer, createFilmCardTemplate(film), `beforeend`));
+mostCommentedFilms.forEach((film) => {
+  renderFilms(MostFilmListContainer, film);
+});
+
 
 // Footer
-renderElement(footerStatistics, createStatisticsParagraph(), `afterbegin`);
-
-// Popup
-renderElement(footer, createFilmPopupSection(), `afterend`);
-const popupSection = document.querySelector(`.film-details`);
-
-renderElement(popupSection, createFilmPopupForm(), `afterbegin`);
-const popupForm = popupSection.querySelector(`.film-details__inner`);
-
-renderElement(popupForm, createFilmPopupTopContainer(), `afterbegin`);
-const popupTopContainer = popupForm.querySelector(`.form-details__top-container`);
-
-renderElement(popupTopContainer, createFilmDetailInfoWrap(films[0]), `beforeend`);
-renderElement(popupTopContainer, createFilmDetailControls(), `beforeend`);
-
-const popupInfoWrap = popupTopContainer.querySelector(`.film-details__info-wrap`);
-renderElement(popupInfoWrap, createFilmDetailInfo(films[0]), `beforeend`);
-
-const genreList = popupInfoWrap.querySelector(`.film-details__row:last-of-type`);
-const genreContainer = genreList.querySelector(`.film-details__cell`);
-const {genres} = films[0];
-genres.forEach((genre) => renderElement(genreContainer, createFilmDetailsGenre(genre), `beforeend`));
-
-
-// Popup Comment List
-renderElement(popupForm, createFilmPopupBottomContainer(films[0]), `beforeend`);
-const popupBottomContainer = popupForm.querySelector(`.form-details__bottom-container`);
-const popupcommentContainer = popupBottomContainer.querySelector(`.film-details__comments-list`);
-
-const {comments} = films[0];
-comments.forEach((comment) => renderElement(popupcommentContainer, createComment(comment.message, comment.author, comment.date), `beforeend`));
+render(footerStatistics, new StatisticsParagraph().getElement(), RenderPosition.AFTERBEGIN);
 

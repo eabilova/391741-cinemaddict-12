@@ -1,4 +1,6 @@
-export const createSiteMenu = (menuInfo) => {
+import {createElement} from "../util.js";
+
+const createSiteMenu = (menuInfo) => {
   const {watchlist, favourite, history} = menuInfo;
   return (
     `<nav class="main-navigation">
@@ -12,3 +14,26 @@ export const createSiteMenu = (menuInfo) => {
   </nav>`
   );
 };
+
+export default class SiteMenu {
+  constructor(menuInfo) {
+    this._menuInfo = menuInfo;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createSiteMenu(this._menuInfo);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

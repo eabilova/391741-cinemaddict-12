@@ -1,4 +1,6 @@
-export const createUserLevelName = () => {
+import {createElement} from "../util.js";
+
+const createUserLevelName = () => {
   return (
     `<section class="header__profile profile">
       <p class="profile__rating">Movie Buff</p>
@@ -6,3 +8,25 @@ export const createUserLevelName = () => {
     </section>`
   );
 };
+
+export default class UserLevelName {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createUserLevelName();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
