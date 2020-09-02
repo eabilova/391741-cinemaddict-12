@@ -34,8 +34,3 @@ export const formatFilmDuration = (duration) => {
     :
     `${(duration / 60 | 0)}h ${duration % 60}m`;
 };
-
-export const closePopup = (openedPopup, removeFunction) => {
-  openedPopup.remove();
-  document.removeEventListener(`keydown`, removeFunction);
-};

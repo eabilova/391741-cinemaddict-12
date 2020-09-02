@@ -1,4 +1,4 @@
-import {render, RenderPosition, closePopup} from './util.js';
+import {render, RenderPosition} from './util.js';
 import UserLevelName from './view/level-name.js';
 import SiteMenu from './view/site-menu.js';
 import SortingElement from './view/sorting-element.js';
@@ -87,23 +87,27 @@ const createPopupCard = (film) => {
   document.addEventListener(`keydown`, onEscKeyDown);
 };
 
+const closePopup = (openedPopup, removeFunction) => {
+  openedPopup.remove();
+  document.removeEventListener(`keydown`, removeFunction);
+};
+
 const renderPopup = (film) => {
   const popup = document.createElement(createPopupCard(film));
   document.appendChild(popup);
 };
 
 const renderFilms = (container, film) => {
-  render(container, new FilmCardTemplate(film).getElement(), RenderPosition.BEFOREEND);
-  onFilmElementMouseClick(`.film-card__poster`, film);
-  onFilmElementMouseClick(`.film-card__title`, film);
-  onFilmElementMouseClick(`.film-card__comments`, film);
+  const filmCard = new FilmCardTemplate(film);
+  render(container, filmCard.getElement(), RenderPosition.BEFOREEND);
+  onFilmElementMouseClick(filmCard, `.film-card__poster`, film,);
+  onFilmElementMouseClick(filmCard, `.film-card__title`, film);
+  onFilmElementMouseClick(filmCard, `.film-card__comments`, film);
 };
 
-const onFilmElementMouseClick = (filmClass, film) => {
-  filmListContainer.getElement().querySelectorAll(filmClass).forEach((item) => {
-    item.addEventListener(`click`, () => {
-      renderPopup(film);
-    });
+const onFilmElementMouseClick = (container, filmClass, film) => {
+  container.getElement().querySelector(filmClass).addEventListener(`click`, () => {
+    renderPopup(film);
   });
 };
 
