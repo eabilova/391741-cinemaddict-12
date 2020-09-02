@@ -45,7 +45,6 @@ const sortMostCommentedFilms = () => {
 const createPopupCard = (film) => {
   // Popup
   const popupSection = new FilmPopupSection();
-  render(footer, popupSection.getElement(), RenderPosition.AFTEREND);
 
   const popupForm = new FilmPopupForm();
   render(popupSection.getElement(), popupForm.getElement(), RenderPosition.AFTERBEGIN);
@@ -85,6 +84,7 @@ const createPopupCard = (film) => {
   });
 
   document.addEventListener(`keydown`, onEscKeyDown);
+  return popupSection.getElement();
 };
 
 const closePopup = (openedPopup, removeFunction) => {
@@ -93,8 +93,7 @@ const closePopup = (openedPopup, removeFunction) => {
 };
 
 const renderPopup = (film) => {
-  const popup = document.createDocumentFragment(createPopupCard(film));
-  document.body.appendChild(popup);
+  document.body.appendChild(createPopupCard(film));
 };
 
 const renderFilms = (container, film) => {
@@ -142,7 +141,10 @@ const extraFilmList = filmSection.getElement().querySelector(`.films-list--extra
 render(extraFilmList, new FilmListContainer().getElement(), RenderPosition.BEFOREEND);
 const topFilmListContainer = extraFilmList.querySelector(`.films-list__container`);
 
-topRated.forEach((film) => render(topFilmListContainer, new FilmCardTemplate(film).getElement(), RenderPosition.BEFOREEND));
+topRated.forEach((film) => {
+  renderFilms(topFilmListContainer, film);
+});
+
 
 // Most commented
 render(filmSection.getElement(), new MostCommentedFilmList().getElement(), RenderPosition.BEFOREEND);
@@ -151,7 +153,10 @@ const MostCommentedFilms = filmSection.getElement().querySelector(`.films-list--
 render(MostCommentedFilms, new FilmListContainer().getElement(), RenderPosition.BEFOREEND);
 const MostFilmListContainer = MostCommentedFilms.querySelector(`.films-list__container`);
 
-mostCommentedFilms.forEach((film) => render(MostFilmListContainer, new FilmCardTemplate(film).getElement(), RenderPosition.BEFOREEND));
+mostCommentedFilms.forEach((film) => {
+  renderFilms(MostFilmListContainer, film);
+});
+
 
 // Footer
 render(footerStatistics, new StatisticsParagraph().getElement(), RenderPosition.AFTERBEGIN);
