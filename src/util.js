@@ -1,3 +1,4 @@
+
 export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
@@ -5,17 +6,7 @@ export const RenderPosition = {
 };
 
 export const render = (container, element, place) => {
-  switch (place) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-    case RenderPosition.AFTEREND:
-      container.after(element);
-      break;
-  }
+  container.insertAdjacentElement(place, element);
 };
 
 export const renderTemplate = (container, template, place) => {
@@ -42,4 +33,9 @@ export const formatFilmDuration = (duration) => {
     `${duration}m`
     :
     `${(duration / 60 | 0)}h ${duration % 60}m`;
+};
+
+export const closePopup = (openedPopup, removeFunction) => {
+  openedPopup.remove();
+  document.removeEventListener(`keydown`, removeFunction);
 };

@@ -1,4 +1,4 @@
-import {render, RenderPosition} from './util.js';
+import {render, RenderPosition, closePopup} from './util.js';
 import UserLevelName from './view/level-name.js';
 import SiteMenu from './view/site-menu.js';
 import SortingElement from './view/sorting-element.js';
@@ -74,17 +74,14 @@ const createPopupCard = (film) => {
   comments.forEach((comment) => render(popupcommentContainer, new Comment(comment.message, comment.author, comment.date).getElement(), RenderPosition.BEFOREEND));
 
 
-  const openedPopup = document.querySelector(`.film-details`);
   const onEscKeyDown = (evt) => {
     if (evt.key === `Escape` || evt.key === `Esc`) {
-      document.body.removeChild(openedPopup);
-      document.removeEventListener(`keydown`, onEscKeyDown);
+      closePopup(popupSection.getElement(), onEscKeyDown);
     }
   };
 
   popupTopContainer.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
-    document.body.removeChild(openedPopup);
-    document.removeEventListener(`keydown`, onEscKeyDown);
+    closePopup(popupSection.getElement(), onEscKeyDown);
   });
 
   document.addEventListener(`keydown`, onEscKeyDown);
@@ -92,7 +89,7 @@ const createPopupCard = (film) => {
 
 const renderPopup = (film) => {
   const popup = document.createElement(createPopupCard(film));
-  document.body.appendChild(popup);
+  document.appendChild(popup);
 };
 
 const renderFilms = (container, film) => {
