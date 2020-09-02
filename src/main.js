@@ -93,8 +93,8 @@ const closePopup = (openedPopup, removeFunction) => {
 };
 
 const renderPopup = (film) => {
-  const popup = document.createElement(createPopupCard(film));
-  document.appendChild(popup);
+  const popup = document.createDocumentFragment(createPopupCard(film));
+  document.body.appendChild(popup);
 };
 
 const renderFilms = (container, film) => {
