@@ -21,3 +21,12 @@ export const RenderPosition = {
 export const renderTemplate = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
+
+export const remove = (component) => {
+  if (!(component instanceof Abstract)) {
+    throw new Error(`Can remove only components`);
+  }
+
+  component.getElement().remove();
+  component.removeElement();
+};
