@@ -1,4 +1,4 @@
-import {createElement} from "../util.js";
+import AbstractView from './abstract.js';
 
 const createFilmPopupBottomContainer = (card) => {
   const {comments} = card;
@@ -44,25 +44,13 @@ const createFilmPopupBottomContainer = (card) => {
   );
 };
 
-export default class FilmPopupBottomContainer {
+export default class FilmPopupBottomContainer extends AbstractView {
   constructor(card) {
+    super();
     this._card = card;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmPopupBottomContainer(this._card);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -1,4 +1,4 @@
-import {createElement} from "../util.js";
+import AbstractView from './abstract.js';
 
 const createFilmPopupTopContainer = () => {
   return (
@@ -10,24 +10,24 @@ const createFilmPopupTopContainer = () => {
   );
 };
 
-export default class FilmPopupTopContainer {
+export default class FilmPopupTopContainer extends AbstractView {
   constructor() {
-    this._element = null;
+    super();
+
+    this._buttonClick = this._buttonClick.bind(this);
   }
 
   getTemplate() {
     return createFilmPopupTopContainer();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _buttonClick(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
 
-  removeElement() {
-    this._element = null;
+  setButtonClick(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._buttonClick);
   }
 }

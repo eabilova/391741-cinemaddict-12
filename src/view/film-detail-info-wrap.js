@@ -1,4 +1,4 @@
-import {createElement} from "../util.js";
+import AbstractView from './abstract.js';
 
 const createFilmDetailInfoWrap = (card) => {
   const {src, ageLimit} = card;
@@ -14,26 +14,14 @@ const createFilmDetailInfoWrap = (card) => {
   );
 };
 
-export default class FilmDetailInfoWrap {
+export default class FilmDetailInfoWrap extends AbstractView {
   constructor(card) {
+    super();
     this._card = card;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmDetailInfoWrap(this._card);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

@@ -1,4 +1,4 @@
-import {createElement} from "../util.js";
+import AbstractView from './abstract.js';
 
 const createUserLevelName = () => {
   return (
@@ -9,24 +9,8 @@ const createUserLevelName = () => {
   );
 };
 
-export default class UserLevelName {
-  constructor() {
-    this._element = null;
-  }
-
+export default class UserLevelName extends AbstractView {
   getTemplate() {
     return createUserLevelName();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
