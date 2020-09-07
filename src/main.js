@@ -1,7 +1,7 @@
 import {render, RenderPosition} from './utils/render.js';
+import {ALL_CARDS_COUNT} from './const.js';
 import UserLevelName from './view/level-name.js';
 import SiteMenu from './view/site-menu.js';
-import SortingElement from './view/sorting-element.js';
 import StatisticsParagraph from './view/statistics-paragraph.js';
 import FilmPopupSection from './view/film-detail-popup-section.js';
 import FilmPopupForm from './view/film-detail-popup-form.js';
@@ -15,8 +15,6 @@ import FilmDetailsGenre from './view/film-details-genre.js';
 import {generateFilm} from './mock/film.js';
 import {generateMenuSiteData} from './mock/site-menu.js';
 import MovieList from './presenter/movie-list.js';
-
-const ALL_CARDS_COUNT = 20;
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
@@ -82,7 +80,7 @@ export const renderPopup = (film) => {
 render(header, new UserLevelName(), RenderPosition.BEFOREEND);
 const menuInfo = generateMenuSiteData();
 render(main, new SiteMenu(menuInfo), RenderPosition.AFTERBEGIN);
-render(main, new SortingElement(), RenderPosition.BEFOREEND);
+
 
 // Films
 const filmList = new MovieList(main);
