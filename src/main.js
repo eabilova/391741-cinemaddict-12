@@ -19,12 +19,12 @@ import MovieList from './presenter/movie-list.js';
 const ALL_CARDS_COUNT = 20;
 
 const header = document.querySelector(`.header`);
-export const main = document.querySelector(`.main`);
+const main = document.querySelector(`.main`);
 const footerStatistics = document.querySelector(`.footer__statistics`);
 
 const films = new Array(ALL_CARDS_COUNT).fill().map(generateFilm);
 
-const createPopupCard = (film) => {
+export const createPopupCard = (film) => {
   // Popup
   const popupSection = new FilmPopupSection();
 

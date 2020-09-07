@@ -1,4 +1,4 @@
-import {formatFilmDuration} from "../utils/common.js";
+import {formatFilmDuration} from '../utils/common.js';
 import AbstractView from './abstract.js';
 
 const createFilmDetailInfo = (card) => {

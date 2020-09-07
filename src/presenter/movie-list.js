@@ -1,5 +1,5 @@
 import {render, RenderPosition, remove} from '../utils/render.js';
-import {renderPopup, main} from '../main.js';
+import {createPopupCard} from '../main.js';
 import FilmSection from '../view/film-section.js';
 import FilmList from '../view/film-list.js';
 import NoFilmMessage from '../view/no-films.js';
@@ -26,8 +26,8 @@ export default class MovieList {
   init(films) {
     this._films = films.slice();
     this._topRated = films.slice().sort((a, b) => b.rating - a.rating).slice(0, EXTRA_CARDS_COUNT);
-    this._mostCommentedFilms = films.slice().sort((a, b) => b.commentNumber - a.commentNumber).slice(0, EXTRA_CARDS_COUNT);
-    render(main, this._filmSection, RenderPosition.BEFOREEND);
+    this._mostCommentedFilms = films.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, EXTRA_CARDS_COUNT);
+    render(this._container, this._filmSection, RenderPosition.BEFOREEND);
     this._renderFilmContainer();
 
   }
@@ -72,7 +72,7 @@ export default class MovieList {
     this._filmCard = new FilmCardTemplate(film);
     render(container, this._filmCard, RenderPosition.BEFOREEND);
     this._filmCard.setFilmElementMouseClick(() => {
-      renderPopup(film);
+      this._renderPopup(film);
     });
   }
 
@@ -86,6 +86,10 @@ export default class MovieList {
     } else {
       this._renderFilms();
     }
+  }
+
+  _renderPopup(film) {
+    document.body.appendChild(createPopupCard(film));
   }
 
   _renderLoadMoreButton() {

@@ -1,4 +1,4 @@
-import Abstract from "../view/abstract.js";
+import Abstract from '../view/abstract.js';
 
 export const render = (container, element, place) => {
   if (container instanceof Abstract) {
@@ -16,10 +16,6 @@ export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
   AFTEREND: `afterend`,
-};
-
-export const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
 };
 
 export const remove = (component) => {
