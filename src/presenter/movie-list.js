@@ -1,4 +1,6 @@
 import {render, RenderPosition, remove} from '../utils/render.js';
+import {SHOW_COUNT, EXTRA_CARDS_COUNT} from '../const.js';
+import SortingElement from '../view/sorting-element.js';
 import {createPopupCard} from '../main.js';
 import FilmSection from '../view/film-section.js';
 import FilmList from '../view/film-list.js';
@@ -7,29 +9,31 @@ import FilmListContainer from '../view/film-list-container.js';
 import FilmCardTemplate from '../view/film-card-template.js';
 import ShowMoreButton from '../view/show-more-button.js';
 import TopFilmList from '../view/top-film-list.js';
+import {SortType} from '../const.js';
 import MostCommentedFilmList from '../view/most-commented-list.js';
-
-const SHOW_COUNT = 5;
-const EXTRA_CARDS_COUNT = 2;
-
 
 export default class MovieList {
   constructor(container) {
     this._container = container;
+    this._renderedShowCount = SHOW_COUNT;
+    this._SortingElement = new SortingElement();
+    this._currentSortType = SortType.DEFAULT;
     this._filmSection = new FilmSection();
     this._filmList = new FilmList();
     this._noFilmList = new NoFilmMessage();
     this._filmListContainer = new FilmListContainer();
     this._loadMoreButtonComponent = new ShowMoreButton();
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(films) {
     this._films = films.slice();
+    this._initialFilmSorting = films.slice();
     this._topRated = films.slice().sort((a, b) => b.rating - a.rating).slice(0, EXTRA_CARDS_COUNT);
     this._mostCommentedFilms = films.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, EXTRA_CARDS_COUNT);
+    this._renderSort();
     render(this._container, this._filmSection, RenderPosition.BEFOREEND);
     this._renderFilmContainer();
-
   }
 
   _renderFilms() {
@@ -86,6 +90,40 @@ export default class MovieList {
     } else {
       this._renderFilms();
     }
+  }
+
+  _handleSortTypeChange(sortType) {
+    if (this._currentSortType === sortType) {
+      return;
+    }
+
+    this._sortFilmType(sortType);
+    this._clearFilmList();
+    this._renderFilmList();
+  }
+
+  _renderSort() {
+    render(this._container, this._SortingElement, RenderPosition.BEFOREEND);
+    this._SortingElement.setSortTypeChangeHandler(this._handleSortTypeChange);
+  }
+
+  _sortFilmType(sortType) {
+    switch (sortType) {
+      case SortType.DATE:
+        this._films.sort((a, b) => b.year - a.year);
+        break;
+      case SortType.RATING:
+        this._films.sort((a, b) => b.rating - a.rating);
+        break;
+      default:
+        this._films = this._initialFilmSorting.slice();
+    }
+    this._currentSortType = sortType;
+  }
+
+  _clearFilmList() {
+    this._filmListContainer.getElement().innerHTML = ``;
+    this._renderedShowCount = SHOW_COUNT;
   }
 
   _renderPopup(film) {
