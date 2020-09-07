@@ -1,4 +1,4 @@
-import {createElement} from "../util.js";
+import AbstractView from './abstract.js';
 import {COMMENTS} from '../mock/film.js';
 
 const emoji = [
@@ -50,27 +50,15 @@ const createComment = (message, author, date) => {
   );
 };
 
-export default class Comment {
+export default class Comment extends AbstractView {
   constructor(message, author, date) {
+    super();
     this._message = message;
     this._author = author;
     this._date = date;
-    this._element = null;
   }
 
   getTemplate() {
     return createComment(this._message, this._author, this._date);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
