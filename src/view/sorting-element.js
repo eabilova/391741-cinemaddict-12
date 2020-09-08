@@ -14,7 +14,7 @@ const createSortingElement = () => {
 export default class SortingElement extends AbstractView {
   constructor() {
     super();
-
+    this._selectedFilter = document.querySelector(`.sort__button--active`);
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
   }
 
@@ -23,14 +23,18 @@ export default class SortingElement extends AbstractView {
   }
 
   _sortTypeChangeHandler(evt) {
+    this._selectedFilter = document.querySelector(`.sort__button--active`);
     if (evt.target.tagName !== `A`) {
       return;
     }
 
-    document.querySelectorAll(`.sort__button`).forEach((item) => item.classList.remove(`sort__button--active`));
-    evt.preventDefault();
-    this._callback.sortTypeChange(evt.target.dataset.sortType);
-    evt.target.classList.add(`sort__button--active`);
+    if (evt.target !== this._selectedFilter) {
+      evt.preventDefault();
+      this._selectedFilter.classList.remove(`sort__button--active`)
+      this._callback.sortTypeChange(evt.target.dataset.sortType);
+      this._selectedFilter = evt.target;
+      this._selectedFilter.classList.add(`sort__button--active`);
+    }
   }
 
   setSortTypeChangeHandler(callback) {
