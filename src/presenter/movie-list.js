@@ -16,7 +16,7 @@ export default class MovieList {
   constructor(container) {
     this._container = container;
     this._renderedShowCount = SHOW_COUNT;
-    this._SortingElement = new SortingElement();
+    this._sortingElement = new SortingElement();
     this._currentSortType = SortType.DEFAULT;
     this._filmSection = new FilmSection();
     this._filmList = new FilmList();
@@ -103,8 +103,8 @@ export default class MovieList {
   }
 
   _renderSort() {
-    render(this._container, this._SortingElement, RenderPosition.BEFOREEND);
-    this._SortingElement.setSortTypeChangeHandler(this._handleSortTypeChange);
+    render(this._container, this._sortingElement, RenderPosition.BEFOREEND);
+    this._sortingElement.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _sortFilmType(sortType) {
