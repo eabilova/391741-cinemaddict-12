@@ -76,8 +76,11 @@ export default class MovieList {
   _renderFilm(container, film) {
     this._filmCard = new FilmCardTemplate(film);
     render(container, this._filmCard, RenderPosition.BEFOREEND);
-    this._filmCard.setFilmElementMouseClick(() => {
+    this._filmCard.setElementClickHandler(() => {
       this._filmPopup.init(film);
+    });
+    this._filmCard.setControlClickHandler(() => {
+      this._filmControls.classList.add(`film-card__controls-item--active`);
     });
   }
 

@@ -17,7 +17,8 @@ export default class Popup {
   }
 
   init(film) {
-    this._renderPopup(film);
+    this._film = film;
+    this._renderPopup(this._film);
   }
 
   _createPopupCard(film) {
@@ -30,7 +31,10 @@ export default class Popup {
 
     this._popupInfoWrap = new FilmDetailInfoWrap(film);
     render(this._popupTopContainer, this._popupInfoWrap, RenderPosition.BEFOREEND);
-    render(this._popupTopContainer, this._filmControls.getElement(), RenderPosition.BEFOREEND);
+    render(this._popupTopContainer, this._filmControls, RenderPosition.BEFOREEND);
+    this._filmControls.setControlClickHandler(() => {
+      this._filmControls.classList.add(`film-card__controls-item--active`);
+    });
 
     render(this._popupInfoWrap, new FilmDetailInfo(film), RenderPosition.BEFOREEND);
 

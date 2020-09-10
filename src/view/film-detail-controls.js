@@ -16,8 +16,27 @@ const createFilmDetailControls = () => {
 };
 
 export default class FilmDetailControls extends AbstractView {
+  constructor(card) {
+    super();
+    this._card = card;
+
+    this._elementClickHandler = this._elementClickHandler.bind(this);
+  }
+
   getTemplate() {
     return createFilmDetailControls();
+  }
+
+  _elementClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
+  setControlClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, this._elementClickHandler);
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).addEventListener(`click`, this._elementClickHandler);
+    this.getElement().querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, this._elementClickHandler);
   }
 }
 
