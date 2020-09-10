@@ -13,6 +13,7 @@ export default class Popup {
   constructor(container) {
     this._container = container;
     this._popupSection = new FilmPopupSection();
+    this._filmControls = new FilmDetailControls();
   }
 
   init(film) {
@@ -21,28 +22,27 @@ export default class Popup {
 
   _createPopupCard(film) {
     // Popup
-    // const popupSection = new FilmPopupSection();
-    const popupForm = new FilmPopupForm();
-    render(this._popupSection, popupForm, RenderPosition.AFTERBEGIN);
+    this._popupForm = new FilmPopupForm();
+    render(this._popupSection, this._popupForm, RenderPosition.AFTERBEGIN);
 
-    const popupTopContainer = new FilmPopupTopContainer();
-    render(popupForm, popupTopContainer, RenderPosition.AFTERBEGIN);
+    this._popupTopContainer = new FilmPopupTopContainer();
+    render(this._popupForm, this._popupTopContainer, RenderPosition.AFTERBEGIN);
 
-    const popupInfoWrap = new FilmDetailInfoWrap(film);
-    render(popupTopContainer, popupInfoWrap, RenderPosition.BEFOREEND);
-    render(popupTopContainer, new FilmDetailControls(), RenderPosition.BEFOREEND);
+    this._popupInfoWrap = new FilmDetailInfoWrap(film);
+    render(this._popupTopContainer, this._popupInfoWrap, RenderPosition.BEFOREEND);
+    render(this._popupTopContainer, this._filmControls.getElement(), RenderPosition.BEFOREEND);
 
-    render(popupInfoWrap, new FilmDetailInfo(film), RenderPosition.BEFOREEND);
+    render(this._popupInfoWrap, new FilmDetailInfo(film), RenderPosition.BEFOREEND);
 
-    const genreList = popupInfoWrap.getElement().querySelector(`.film-details__row:last-of-type`);
+    const genreList = this._popupInfoWrap.getElement().querySelector(`.film-details__row:last-of-type`);
     const genreContainer = genreList.querySelector(`.film-details__cell`);
     const {genres} = film;
     genres.forEach((genre) => render(genreContainer, new FilmDetailsGenre(genre), RenderPosition.BEFOREEND));
 
 
     // Popup Comment List
-    render(popupForm, new FilmPopupBottomContainer(film), RenderPosition.BEFOREEND);
-    const popupBottomContainer = popupForm.getElement().querySelector(`.form-details__bottom-container`);
+    render(this._popupForm, new FilmPopupBottomContainer(film), RenderPosition.BEFOREEND);
+    const popupBottomContainer = this._popupForm.getElement().querySelector(`.form-details__bottom-container`);
     const popupcommentContainer = popupBottomContainer.querySelector(`.film-details__comments-list`);
 
     const {comments} = film;
@@ -55,7 +55,7 @@ export default class Popup {
       }
     };
 
-    popupTopContainer.setButtonClick(() => {
+    this._popupTopContainer.setButtonClick(() => {
       this._closePopup(this._popupSection.getElement(), onEscKeyDown);
     });
 
@@ -69,6 +69,7 @@ export default class Popup {
 
   _closePopup(openedPopup, removeFunction) {
     openedPopup.remove();
+    this._popupSection.removeElement();
     document.removeEventListener(`keydown`, removeFunction);
   }
 }
