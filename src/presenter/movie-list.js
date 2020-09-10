@@ -1,7 +1,6 @@
 import {render, RenderPosition, remove} from '../utils/render.js';
 import {SHOW_COUNT, EXTRA_CARDS_COUNT} from '../const.js';
 import SortingElement from '../view/sorting-element.js';
-import {createPopupCard} from '../main.js';
 import FilmSection from '../view/film-section.js';
 import FilmList from '../view/film-list.js';
 import NoFilmMessage from '../view/no-films.js';
@@ -11,6 +10,7 @@ import ShowMoreButton from '../view/show-more-button.js';
 import TopFilmList from '../view/top-film-list.js';
 import {SortType} from '../const.js';
 import MostCommentedFilmList from '../view/most-commented-list.js';
+import PopupPresenter from './popup.js';
 
 export default class MovieList {
   constructor(container) {
@@ -23,6 +23,7 @@ export default class MovieList {
     this._noFilmList = new NoFilmMessage();
     this._filmListContainer = new FilmListContainer();
     this._loadMoreButtonComponent = new ShowMoreButton();
+    this._filmPopup = new PopupPresenter();
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
@@ -76,7 +77,7 @@ export default class MovieList {
     this._filmCard = new FilmCardTemplate(film);
     render(container, this._filmCard, RenderPosition.BEFOREEND);
     this._filmCard.setFilmElementMouseClick(() => {
-      this._renderPopup(film);
+      this._filmPopup.init(film);
     });
   }
 
@@ -124,10 +125,6 @@ export default class MovieList {
   _clearFilmList() {
     this._filmListContainer.getElement().innerHTML = ``;
     this._renderedShowCount = SHOW_COUNT;
-  }
-
-  _renderPopup(film) {
-    document.body.appendChild(createPopupCard(film));
   }
 
   _renderLoadMoreButton() {
